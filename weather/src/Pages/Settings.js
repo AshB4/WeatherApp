@@ -61,10 +61,10 @@ const Settings = () => {
       <div className={classes.settingItem}>
         <label>Background Image:</label>
         <select value={backgroundImage} onChange={(e) => handleBackgroundImageChange(e.target.value)}>
-          <option value="default">Default</option>
-          <option value="image1">Image 1</option>
-          <option value="image2">Image 2</option>
-          {/* Add more options as needed */}
+          <option value="Default">Beach Waves</option>
+          <option value="image1">Joshua Tree</option>
+          <option value="image2">St. Rosa Beach Florida</option>
+          <option value="image3">Ocean Peir</option>
         </select>
       </div>
 
