@@ -1,5 +1,9 @@
 import React from 'react';
+import { useSettings } from '../App';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { createUseStyles } from 'react-jss';
+import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles({
   homeContainer: {
@@ -12,13 +16,16 @@ const useStyles = createUseStyles({
   },
 });
 
-const Home = ({ theme, temperatureUnit, locationPreferences, backgroundImage, mapStyle }) => {
+const Home = () => {
   const classes = useStyles();
+  const { theme, temperatureUnit, locationPreferences, backgroundImage, mapStyle } = useSettings();
 
   return (
     <div className={classes.homeContainer}>
       <h2>Welcome to the Home Page!</h2>
-
+      <Link to="/settings">
+  <FontAwesomeIcon icon={faCog} />
+</Link>
       <div className={classes.content}>
         <p>Selected Theme: {theme}</p>
         <p>Temperature Unit: {temperatureUnit}</p>
@@ -27,7 +34,9 @@ const Home = ({ theme, temperatureUnit, locationPreferences, backgroundImage, ma
         <p>Map Style: {mapStyle}</p>
       </div>
 
-      {/* Add more content or components based on your requirements */}
+      <Link to="/settings">
+        <FontAwesomeIcon icon={faCog} size="2x" />
+      </Link>
     </div>
   );
 };
