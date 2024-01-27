@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
+import { useNavigate,Link } from 'react-router-dom';
 import { useSettings } from '../App';
 import BeachWaves from '../Assets/BeachWaves.jpg';
 import CaJoshTree from '../Assets/CaJoshTree.jpg';
@@ -12,7 +13,8 @@ import {
   faThermometer,
   faGlobe,
   faImages,
-  faMap
+  faMap,
+  faHome,
 
  }
    from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +32,7 @@ const useStyles = createUseStyles({
   },
   lightTheme: {
     backgroundColor: 'rgba(51, 51, 51, 0.15)',
-    color: '#333',
+    color: '#111', //'#lightblue if this one doesnt look nice?'
   },
   switchContainer: {
     display: 'flex',
@@ -45,7 +47,37 @@ const useStyles = createUseStyles({
 
 const Settings = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const { settings, updateSettings } = useSettings();
+
+
+  const handleClick = () => {
+    navigate('/');
+  };
+
+  const handleSave = () => {
+    // Save settings to localStorage
+    localStorage.setItem('settings', JSON.stringify(settings));
+    // Navigate back to the Home page
+    navigate('/');
+  };
+  
+
+  useEffect(() => {
+    // Load settings from localStorage when component mounts
+    const storedSettings = JSON.parse(localStorage.getItem('settings'));
+    if (storedSettings) {
+      updateSettings(storedSettings);
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    updateSettings({
+      ...settings,
+      [e.target.name]: e.target.value,
+    });
+  };
+  
   const backgroundImages = {
     Default: BeachWaves,
     image1: CaJoshTree,
@@ -54,7 +86,7 @@ const Settings = () => {
   };
 
   // Destructuring individual settings from the settings object
-  const { theme, temperatureUnit, locationPreferences, backgroundImage, multipleLocations } = settings;
+  const { theme, temperatureUnit, locationPreferences, backgroundImage, multipleLocations, setMultipleLocations } = settings;
 
   // Define functions to handle state changes
   const handleThemeChange = () => {
@@ -79,11 +111,18 @@ const Settings = () => {
     newMultipleLocations[index] = newLocation;
     updateSettings({ ...settings, multipleLocations: newMultipleLocations });
   }; 
+  const handleAddLocation = () => {
+    setMultipleLocations([...multipleLocations, '']);
+  };
 
 
   return (
     <div className={`${classes.settingsContainer} ${theme === 'dark' ? classes.darkTheme : classes.lightTheme}`}>
       <h2>Settings Page</h2>
+      <Link to="/" onClick={handleClick}>
+        <FontAwesomeIcon icon={faHome} />
+        Go Home
+      </Link>
 
       {/* Dark and Light Theme */}
 <div className={`${classes.settingItem} ${classes.switchContainer}`}>
@@ -136,25 +175,23 @@ const Settings = () => {
 
       {/* Multiple Locations Input Fields */}
       {locationPreferences === 'multiple' && (
-        <div className={classes.settingItem}>
-          {[0, 1, 2].map((index) => (
+        <div className="settingItem">
+          {multipleLocations.map((location, index) => (
             <input
               key={index}
               type="text"
               placeholder={`Location ${index + 1}`}
-              value={multipleLocations[index]}
+              value={location}
               onChange={(e) => handleMultipleLocationsChange(index, e.target.value)}
             />
           ))}
+          <button onClick={handleAddLocation}>Add Location</button>
         </div>
       )}
 
-<button onClick={handleAddLocation}>Add Location</button>
-
-<button onClick={handleSave}>Save</button>
-</div>
-
-  );
-};
-
+      <button onClick={handleSave}>Save</button>
+        </div>
+      )}
+    
+  
 export default Settings;

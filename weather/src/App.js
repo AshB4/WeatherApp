@@ -36,9 +36,8 @@ const App = () => {
       <SettingsContext.Provider value={{ settings, updateSettings }}>
         <Routes>
           {/* Pass settings as props to the Home and Settings components */}
-          <Route path="/" exact render={() => <Home {...settings} />} />
-          <Route path="/settings" component={Settings} />
-          {/* Add more routes if needed */}
+          <Route path="/" element={<Home />} />
+          <Route path="/Settings" element={<Settings />} />       
         </Routes>
       </SettingsContext.Provider>
     </Router>

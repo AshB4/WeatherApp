@@ -5,6 +5,7 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { createUseStyles } from 'react-jss';
 import { Link } from 'react-router-dom';
 
+
 const useStyles = createUseStyles({
   homeContainer: {
     textAlign: 'center',
