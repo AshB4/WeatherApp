@@ -1,6 +1,6 @@
 // src/utils/weatherApi.js
 
-const apiKey = 'c8bf7fc9de434b33b89203446241001';
+const apiKey = 'your-key-here';
 const baseUrl = 'http://api.weatherapi.com/v1';
 
 const getWeatherData = async (endpoint, params) => {
